@@ -1,10 +1,16 @@
-import React from 'react';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+/* components */
+import Home from "./pages/Home/Index";
 
 function App() {
   return (
-    <div className="App">
-      Hola mundo
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' exact element={<Home />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
