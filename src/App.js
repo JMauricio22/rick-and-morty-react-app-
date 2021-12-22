@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 /* components */
 import Home from "./pages/Home/Index";
@@ -7,9 +8,11 @@ import Home from "./pages/Home/Index";
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home />} />
-      </Routes>
+      <Container>
+        <Routes>
+          <Route path='/' element={<Home />} />
+        </Routes>
+      </Container>
     </BrowserRouter>
   );
 }
