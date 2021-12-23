@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 import { getAllCharacters } from "../../services/characters";
-import CharacterCard from "./CharacterCard";
+import CharacterCard from "../../components/CharacterCard/Index";
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ export default function Index() {
   }, []);
 
   return (
-    <Row>
+    <Row className='mt-4'>
       {loading && (
         <Col xs={{ span: 2, offset: 5 }} className='text-center mt-4'>
           <Spinner animation='grow' role='status' variant='success'>
