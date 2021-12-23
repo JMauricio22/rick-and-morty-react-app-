@@ -5,6 +5,8 @@ import Layout from "./components/Layout";
 
 /* components */
 import Home from "./pages/Home/Index";
+import Favorites from "./pages/Favorites/Index";
+import Error404 from "./pages/404/Index";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
         <Container>
           <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/favorites' element={<Favorites />} />
+            <Route path='/*' element={<Error404 />} />
           </Routes>
         </Container>
       </Layout>
