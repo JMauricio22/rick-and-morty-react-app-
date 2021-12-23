@@ -1,37 +1,47 @@
-import React, { useState, useEffect } from "react";
-import { Row, Col, Card, Spinner } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
+/* eslint-disable */
+import React, { useState, useEffect, useRef } from "react";
+import { Row, Col, Spinner } from "react-bootstrap";
 import { getAllCharacters } from "../../services/characters";
-import "./css/Index.css";
-
-const statusColor = {
-  Alive: "success",
-  Dead: "danger",
-  unknown: "warning",
-};
-
-const gender = {
-  Male: faMars,
-  Female: faVenus,
-};
+import CharacterCard from "./CharacterCard";
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
+  const controller = useRef();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getAllCharacters();
-        setItems(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
+    let mount = true;
+    const fetchData = () => {
+      getAllCharacters(controller.current.signal)
+        .then((data) => {
+          if (mount) {
+            setItems(data);
+          }
+        })
+        .catch((error) => {
+          // console.error(error);
+        })
+        .finally(() => {
+          if (mount) {
+            setLoading(false);
+          }
+        });
     };
+
+    if (controller.current) {
+      controller.current.abort();
+    }
+
+    controller.current = new AbortController();
+
     fetchData();
+
+    return function cleanup() {
+      if (controller.current) {
+        controller.current.abort();
+      }
+      mount = false;
+    };
   }, []);
 
   return (
@@ -45,47 +55,15 @@ export default function Index() {
       )}
       {!loading &&
         items.map((character) => (
-          <Col xs={4} className='mb-4'>
-            <Card className='shadow cursor-pointer'>
-              <Card.Img variant='top' src={character.image} />
-              <Card.Body>
-                <Card.Title class='d-flex justify-content-between align-items-center fw-bold'>
-                  <div>
-                    <span
-                      className={`bg-${statusColor[character.status]} status`}
-                    ></span>
-                    {character.name} ({character.species})
-                  </div>
-                  <FontAwesomeIcon
-                    icon={gender[character.gender]}
-                    className={`
-                        ${
-                          character.gender === "Male"
-                            ? "male-color"
-                            : "female-color"
-                        }
-
-                        fs-5
-                        `}
-                  />
-                </Card.Title>
-                <Card.Text>
-                  <div>
-                    Origin:{" "}
-                    <span
-                      className={
-                        character.origin.name === "unknown"
-                          ? "text-decoration-line-through"
-                          : ""
-                      }
-                    >
-                      {character.origin.name}
-                    </span>
-                  </div>
-                  <div>Location: {character.location.name}</div>
-                </Card.Text>
-              </Card.Body>
-            </Card>
+          <Col
+            sm={12}
+            md={6}
+            lg={4}
+            data-testid='CharacterCard'
+            className='mb-4'
+            key={character.name}
+          >
+            <CharacterCard character={character} />
           </Col>
         ))}
     </Row>
