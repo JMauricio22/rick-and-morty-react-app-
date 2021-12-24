@@ -3,12 +3,13 @@ import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 import { getAllCharacters } from "../../services/characters";
 import CharacterCard from "../../components/CharacterCard/Index";
-import getFavorites from "./utils/getFavorites";
+import getFavorites from "../../utils/getFavoritesFromLocalStorage";
+import useFavorites from "../../hooks/useFavorites";
 
 export default function Index() {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [favorites, setFavorites] = useState(getFavorites());
+  const [favorites, updateFavorites] = useFavorites();
   const controller = useRef();
 
   useEffect(() => {
@@ -45,10 +46,6 @@ export default function Index() {
       mount = false;
     };
   }, []);
-
-  const updateFavorites = () => {
-    setFavorites(getFavorites());
-  };
 
   return (
     <Row className='mt-4'>
