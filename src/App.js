@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <Layout>
-        <Container>
+        <Container className='min-vh-100'>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/favorites' element={<Favorites />} />

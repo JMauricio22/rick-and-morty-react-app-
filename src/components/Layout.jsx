@@ -7,6 +7,9 @@ export default function Layout({ children }) {
     <>
       <Nav />
       {children}
+      <footer className='bg-dark text-white px-2 py-4 text-center'>
+        Made with ❤ by Mauricio Lemús
+      </footer>
     </>
   );
 }
