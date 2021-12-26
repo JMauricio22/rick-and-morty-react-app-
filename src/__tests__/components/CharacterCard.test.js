@@ -66,14 +66,6 @@ describe("<CharacterCard />", () => {
 
     //Verify that the prefix attribute on the favorites button has the value fas
     expect(svgIcon).toHaveAttribute("data-prefix", "fas");
-
-    //Simulate click event in favorites button
-    userEvent.click(favoritesButton);
-
-    // await waitFor(() => {
-    // Verify that the prefix attribute on the favorites button has the value far
-    // expect(svgIcon).toHaveAttribute("data-prefix", "far");
-    // });
   });
 
   test("when the favorites button is clicked the svg icon must have the data-prefix attribute in far", async () => {
