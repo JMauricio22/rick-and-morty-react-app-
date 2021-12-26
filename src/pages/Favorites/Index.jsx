@@ -17,10 +17,9 @@ export default function Index() {
       <Row className='mt-4'>
         {Object.values(favorites).map((character) => (
           <Col
-            // sm={12}
             md={12}
             lg={6}
-            data-testid='CharacterCard'
+            data-testid='Div::Col'
             className='mb-4'
             key={character.name}
           >
