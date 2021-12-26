@@ -4,7 +4,7 @@ import { Card, Row, Col, Image, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMars, faVenus, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
-import "./css/CharacterCard.css";
+import "./css/CharacterCard.scss";
 
 const statusColor = {
   Alive: "success",
