@@ -1,5 +1,6 @@
+/* eslint-disable */
 import React, { useEffect, useRef } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Row, Col, Image, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMars, faVenus, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
@@ -66,7 +67,54 @@ export default function CharacterCard({
   }, []);
 
   return (
-    <Card className='shadow'>
+    <Container className='position-relative'>
+      <button
+        className='position-absolute end-0 top-0 bg-transparent border-0 me-3 mt-1'
+        onClick={isFavorite ? removeToFavorites : addToFavorites}
+        ref={favoritesButtonRef}
+      >
+        <FontAwesomeIcon
+          data-testid='Svg::Icon'
+          icon={isFavorite ? faStar : faStarRegular}
+          className='fs-3  text-warning'
+        />
+      </button>
+      <Row className='shadow'>
+        <Col lg={4} md={4} sm={12} className='p-0'>
+          <div>
+            <Image fluid src={character.image} className='w-100' />
+          </div>
+        </Col>
+        <Col lg={8} md={8} sm={12} className='p-2'>
+          <h2 className='h5' data-testid='Div::Title'>
+            {character.name}
+          </h2>
+          <h3 className='h6'>
+            <span
+              className={`bg-${statusColor[character.status]} status`}
+            ></span>
+            {character.status} - {character.species}
+          </h3>
+          <p className='mb-1 fw-light'>
+            Origin:{" "}
+            <span
+              className={
+                character.origin.name === "unknown"
+                  ? "text-decoration-line-through"
+                  : "text-muted"
+              }
+            >
+              {character.origin.name}
+            </span>
+          </p>
+          <p className='mb-1 fw-light'>
+            Location:{" "}
+            <span className='text-muted'>{character.location.name}</span>
+          </p>
+        </Col>
+      </Row>
+    </Container>
+    /*  <Card className='shadow'>
       <button
         ref={favoritesButtonRef}
         className='position-absolute end-0 me-1 mt-1 bg-transparent border-0'
@@ -84,17 +132,17 @@ export default function CharacterCard({
           <div data-testid='Div::Title'>
             <span
               className={`bg-${statusColor[character.status]} status`}
-            ></span>
+              ></span>
             {character.name} ({character.species})
           </div>
           <FontAwesomeIcon
             icon={gender[character.gender]}
             className={`
-                  ${character.gender === "Male" ? "male-color" : "female-color"}
-
-                  fs-5
-                  `}
-          />
+            ${character.gender === "Male" ? "male-color" : "female-color"}
+            
+            fs-5
+            `}
+            />
         </Card.Title>
         <Card.Text as='div'>
           <div>
@@ -102,8 +150,8 @@ export default function CharacterCard({
             <span
               className={
                 character.origin.name === "unknown"
-                  ? "text-decoration-line-through"
-                  : ""
+                ? "text-decoration-line-through"
+                : ""
               }
             >
               {character.origin.name}
@@ -112,6 +160,6 @@ export default function CharacterCard({
           <div>Location: {character.location.name}</div>
         </Card.Text>
       </Card.Body>
-    </Card>
+    </Card> */
   );
 }

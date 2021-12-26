@@ -59,9 +59,9 @@ export default function Index() {
       {!loading &&
         items.map((character) => (
           <Col
-            sm={12}
-            md={6}
-            lg={4}
+            // sm={12}
+            md={12}
+            lg={6}
             data-testid='CharacterCard'
             className='mb-4'
             key={character.name}
