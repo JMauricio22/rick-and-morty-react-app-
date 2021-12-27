@@ -97,7 +97,7 @@ export default function CharacterCard({
             ></span>
             {character.status} - {character.species}{" "}
           </h3>
-          <p className='mb-1 fw-light text-truncate'>Origin: </p>
+          <p className='mb-1 fw-light text-truncate'>First seen in: </p>
           <p className='mb-1 fw-light text-truncate'>
             <span
               className={
@@ -109,8 +109,8 @@ export default function CharacterCard({
               {character.origin.name}
             </span>
           </p>
-          <p className='mb-1 fw-light text-truncate'>Location: </p>
-          <p>
+          <p className='mb-1 fw-light text-truncate'>Last known location: </p>
+          <p className='text-truncate'>
             <span className='text-muted'>{character.location.name}</span>
           </p>
         </Col>
