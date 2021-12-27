@@ -7,19 +7,19 @@ export default function Origin({ url }) {
   const [origin, setOrigin] = useState(null);
   const [isOriginLoading, setIsOriginLoading] = useState(false);
 
-  useEffect(() => {
-    const getOrigin = async () => {
-      try {
-        setIsOriginLoading(true);
-        const { data } = await axios.get(url);
-        setOrigin(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsOriginLoading(false);
-      }
-    };
+  const getOrigin = async () => {
+    try {
+      setIsOriginLoading(true);
+      const { data } = await axios.get(url);
+      setOrigin(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsOriginLoading(false);
+    }
+  };
 
+  useEffect(() => {
     if (url) {
       getOrigin();
     }

@@ -1,5 +1,6 @@
 import React from "react";
+import PageNotFound from "../../components/PageNotFound";
 
 export default function Index() {
-  return <div className='text-danger'>404</div>;
+  return <PageNotFound />;
 }

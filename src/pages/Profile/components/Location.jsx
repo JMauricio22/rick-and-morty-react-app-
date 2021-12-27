@@ -7,18 +7,19 @@ export default function Location({ url }) {
   const [location, setLocation] = useState(null);
   const [isLocationLoading, setIsLocationLoading] = useState(false);
 
+  const getLocation = async () => {
+    try {
+      setIsLocationLoading(true);
+      const { data } = await axios.get(url);
+      setLocation(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLocationLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const getLocation = async () => {
-      try {
-        setIsLocationLoading(true);
-        const { data } = await axios.get(url);
-        setLocation(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLocationLoading(false);
-      }
-    };
     if (url) {
       getLocation();
     }

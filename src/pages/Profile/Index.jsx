@@ -4,6 +4,7 @@ import { Spinner, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { getCharacterById } from "../../services/characters";
+import PageNotFound from "../../components/PageNotFound";
 import Origin from "./components/Origin";
 import Location from "./components/Location";
 
@@ -21,26 +22,26 @@ const genders = {
 export default function Index() {
   const [character, setCharacter] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { id } = useParams();
 
-  useEffect(() => {
-    const getCharacter = async () => {
-      try {
-        const data = await getCharacterById(id, null);
-        console.log(id);
-        console.log(data);
-        setCharacter(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const getCharacter = async () => {
+    try {
+      const data = await getCharacterById(id, null);
+      setCharacter(data);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     getCharacter();
   }, []);
 
-  return (
+  const getView = () => (
     <>
       {isLoading && (
         <div className='d-flex justify-content-center mt-1'>
@@ -59,11 +60,15 @@ export default function Index() {
             Status: {character.status} ({character.species}){" "}
           </p>
           <p>
-            {character.gender}{" "}
-            <FontAwesomeIcon
-              color={genders[character.gender].color}
-              icon={genders[character.gender].icon}
-            />{" "}
+            {character.gender === "unknown"
+              ? `Gender: ${character.gender}`
+              : character.gender}{" "}
+            {character.gender !== "unknown" && (
+              <FontAwesomeIcon
+                color={genders[character.gender].color}
+                icon={genders[character.gender].icon}
+              />
+            )}
           </p>
           {/* Origin */}
           <Origin url={character ? character.origin.url : ""} />
@@ -73,4 +78,8 @@ export default function Index() {
       )}
     </>
   );
+
+  const getErrorView = () => <PageNotFound />;
+
+  return <>{error ? getErrorView() : getView()}</>;
 }
