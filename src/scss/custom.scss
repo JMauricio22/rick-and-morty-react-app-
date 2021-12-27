@@ -1,0 +1,21 @@
+$font-family-sans-serif : 'Ubuntu', sans-serif;;
+
+/* Colors */
+$dark: #40394A;
+$light: #C4B6B6;
+// $danger: #3D0000;
+
+/* Background */
+$body-bg: #2C272E;
+
+/* Link */
+$link-color: $light;
+
+.active{
+    border-bottom: 4px solid $dark;
+}
+.rounded-4{
+    border-radius: 1.5rem;
+}
+
+@import '~bootstrap/scss/bootstrap.scss';

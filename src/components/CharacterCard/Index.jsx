@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useEffect, useRef } from "react";
-import { Card, Row, Col, Image, Container } from "react-bootstrap";
+import { Card, Row, Col, Image, Container, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMars, faVenus, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
@@ -69,7 +69,7 @@ export default function CharacterCard({
   return (
     <Container className='position-relative'>
       <button
-        className='position-absolute end-0 top-0 bg-transparent border-0 me-3 mt-1'
+        className='position-absolute end-0 top-0 bg-transparent border-0 me-4 mt-2'
         onClick={isFavorite ? removeToFavorites : addToFavorites}
         ref={favoritesButtonRef}
       >
@@ -79,14 +79,12 @@ export default function CharacterCard({
           className='fs-3  text-warning'
         />
       </button>
-      <Row className='shadow'>
-        <Col lg={4} md={4} sm={12} className='p-0'>
-          <div>
-            <Image fluid src={character.image} className='w-100' />
-          </div>
+      <Row className='shadow bg-dark text-light rounded-4 overflow-hidden'>
+        <Col md={5} sm={12} className='p-0'>
+          <Image fluid src={character.image} className='w-100 h-100' />
         </Col>
-        <Col lg={8} md={8} sm={12} className='p-2'>
-          <h2 className='h5' data-testid='Div::Title'>
+        <Col md={7} sm={12} className='p-3'>
+          <h2 className='h5 w-50 text-truncate' data-testid='Div::Title'>
             {character.name}
           </h2>
           <h3 className='h6'>
@@ -95,20 +93,20 @@ export default function CharacterCard({
             ></span>
             {character.status} - {character.species}
           </h3>
-          <p className='mb-1 fw-light'>
-            Origin:{" "}
+          <p className='mb-1 fw-light text-truncate'>Origin: </p>
+          <p className='mb-1 fw-light text-truncate'>
             <span
               className={
                 character.origin.name === "unknown"
-                  ? "text-decoration-line-through"
+                  ? "text-decoration-line-through text-muted"
                   : "text-muted"
               }
             >
               {character.origin.name}
             </span>
           </p>
-          <p className='mb-1 fw-light'>
-            Location:{" "}
+          <p className='mb-1 fw-light text-truncate'>Location: </p>
+          <p>
             <span className='text-muted'>{character.location.name}</span>
           </p>
         </Col>

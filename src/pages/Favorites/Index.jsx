@@ -10,7 +10,7 @@ export default function Index() {
     <>
       {Object.values(favorites).length === 0 && (
         <Alert variant='danger' className='mt-4'>
-          <Alert.Heading>No items found</Alert.Heading>
+          <Alert.Heading>No items found 😰</Alert.Heading>
           <p>Add items to favorites and you can view them here.</p>
         </Alert>
       )}
