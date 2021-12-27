@@ -6,6 +6,7 @@ import axios from "axios";
 export default function Location({ url }) {
   const [location, setLocation] = useState(null);
   const [isLocationLoading, setIsLocationLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const getLocation = async () => {
     try {
@@ -13,7 +14,7 @@ export default function Location({ url }) {
       const { data } = await axios.get(url);
       setLocation(data);
     } catch (error) {
-      console.error(error);
+      setError(error);
     } finally {
       setIsLocationLoading(false);
     }
@@ -25,6 +26,33 @@ export default function Location({ url }) {
     }
   }, [url]);
 
+  const getView = () => (
+    <>
+      {isLocationLoading && (
+        <div className='d-flex justify-content-center'>
+          <Spinner animation='border' role='status' variant='success'>
+            <span className='visually-hidden'>Loading...</span>
+          </Spinner>
+        </div>
+      )}
+      {!isLocationLoading && location && (
+        <>
+          <h2 className='h4'>Last known location: </h2>
+          <h3 className='h5'> {location.name} </h3>
+          <p className='mb-1'> Type: {location.type} </p>
+          <p> Dimension: {location.dimension} </p>
+        </>
+      )}
+      {!isLocationLoading && !location && (
+        <h2 className='h4'>Location Unknown </h2>
+      )}
+    </>
+  );
+
+  const getErrorView = () => (
+    <h3 className='h5'>something went wrong getting the location 😢</h3>
+  );
+
   return (
     <Row>
       <Col
@@ -33,24 +61,7 @@ export default function Location({ url }) {
         md={{ span: 6, offset: 3 }}
         style={{ maxWidth: 400, margin: "0 auto" }}
       >
-        {isLocationLoading && (
-          <div className='d-flex justify-content-center'>
-            <Spinner animation='border' role='status' variant='success'>
-              <span className='visually-hidden'>Loading...</span>
-            </Spinner>
-          </div>
-        )}
-        {!isLocationLoading && location && (
-          <>
-            <h2 className='h4'>Last known location: </h2>
-            <h3 className='h5'> {location.name} </h3>
-            <p className='mb-1'> Type: {location.type} </p>
-            <p> Dimension: {location.dimension} </p>
-          </>
-        )}
-        {!isLocationLoading && !location && (
-          <h2 className='h4'>Location Unknown </h2>
-        )}
+        {error ? getErrorView() : getView()}
       </Col>
     </Row>
   );

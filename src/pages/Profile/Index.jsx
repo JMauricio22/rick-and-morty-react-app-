@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMars, faVenus } from "@fortawesome/free-solid-svg-icons";
 import { getCharacterById } from "../../services/characters";
 import PageNotFound from "../../components/PageNotFound";
+import Error from "../../components/Error";
 import Origin from "./components/Origin";
 import Location from "./components/Location";
 
@@ -30,7 +31,6 @@ export default function Index() {
       const data = await getCharacterById(id, null);
       setCharacter(data);
     } catch (error) {
-      console.error(error);
       setError(error);
     } finally {
       setIsLoading(false);
@@ -79,7 +79,12 @@ export default function Index() {
     </>
   );
 
-  const getErrorView = () => <PageNotFound />;
+  const getErrorView = (error) =>
+    error.response && error.response.status === 404 ? (
+      <PageNotFound />
+    ) : (
+      <Error />
+    );
 
-  return <>{error ? getErrorView() : getView()}</>;
+  return <>{error ? getErrorView(error) : getView()}</>;
 }

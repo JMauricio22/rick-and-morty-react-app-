@@ -6,6 +6,7 @@ import axios from "axios";
 export default function Origin({ url }) {
   const [origin, setOrigin] = useState(null);
   const [isOriginLoading, setIsOriginLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const getOrigin = async () => {
     try {
@@ -13,7 +14,7 @@ export default function Origin({ url }) {
       const { data } = await axios.get(url);
       setOrigin(data);
     } catch (error) {
-      console.error(error);
+      setError(error);
     } finally {
       setIsOriginLoading(false);
     }
@@ -25,6 +26,31 @@ export default function Origin({ url }) {
     }
   }, [url]);
 
+  const getView = () => (
+    <>
+      {isOriginLoading && (
+        <div className='d-flex justify-content-center'>
+          <Spinner animation='border' role='status' variant='success'>
+            <span className='visually-hidden'>Loading...</span>
+          </Spinner>
+        </div>
+      )}
+      {!isOriginLoading && origin && (
+        <>
+          <h2 className='h4'>First seen in: </h2>
+          <h3 className='h5'>{origin.name} </h3>
+          <p className='mb-1'> Type: {origin.type} </p>
+          <p> Dimension: {origin.dimension} </p>
+        </>
+      )}
+      {!isOriginLoading && !origin && <h2 className='h4'>Origin Unknown</h2>}
+    </>
+  );
+
+  const getErrorView = () => (
+    <h3 className='h5'>something went wrong getting the origin 😢</h3>
+  );
+
   return (
     <Row>
       <Col
@@ -33,22 +59,7 @@ export default function Origin({ url }) {
         md={{ span: 6, offset: 3 }}
         style={{ maxWidth: 400, margin: "0 auto" }}
       >
-        {isOriginLoading && (
-          <div className='d-flex justify-content-center'>
-            <Spinner animation='border' role='status' variant='success'>
-              <span className='visually-hidden'>Loading...</span>
-            </Spinner>
-          </div>
-        )}
-        {!isOriginLoading && origin && (
-          <>
-            <h2 className='h4'>First seen in: </h2>
-            <h3 className='h5'>{origin.name} </h3>
-            <p className='mb-1'> Type: {origin.type} </p>
-            <p> Dimension: {origin.dimension} </p>
-          </>
-        )}
-        {!isOriginLoading && !origin && <h2 className='h4'>Origin Unknown</h2>}
+        {error ? getErrorView() : getView()}
       </Col>
     </Row>
   );
