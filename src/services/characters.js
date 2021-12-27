@@ -8,3 +8,12 @@ export const getAllCharacters = async (signal) => {
     throw error;
   }
 };
+
+export const getCharacterById = async (id, signal) => {
+  try {
+    const resp = await axiosInstance.get(`character/${id}`, { signal });
+    return resp.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Index() {
-  return <div>404</div>;
+  return <div className='text-danger'>404</div>;
 }

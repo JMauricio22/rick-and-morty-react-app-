@@ -1,9 +1,9 @@
-/* eslint-disable */
 import React, { useEffect, useRef } from "react";
-import { Card, Row, Col, Image, Container, Button } from "react-bootstrap";
+import { Row, Col, Image, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMars, faVenus, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import { useNavigate } from "react-router-dom";
 import "./css/CharacterCard.scss";
 
 const statusColor = {
@@ -12,16 +12,12 @@ const statusColor = {
   unknown: "warning",
 };
 
-const gender = {
-  Male: faMars,
-  Female: faVenus,
-};
-
 export default function CharacterCard({
   character,
   isFavorite,
   updateFavorites,
 }) {
+  const navigate = useNavigate();
   const favoritesButtonRef = useRef();
 
   const addAnimationClassToFavoritesBtn = () => {
@@ -44,6 +40,10 @@ export default function CharacterCard({
       addAnimationClassToFavoritesBtn();
       updateFavorites();
     }
+  };
+
+  const goToCharacterPage = () => {
+    navigate(`/character/${character.id}`);
   };
 
   useEffect(() => {
@@ -79,7 +79,11 @@ export default function CharacterCard({
           className='fs-3  text-warning'
         />
       </button>
-      <Row className='shadow bg-dark text-light rounded-4 overflow-hidden'>
+      <Row
+        className='shadow bg-dark text-light rounded-4 overflow-hidden'
+        style={{ cursor: "pointer" }}
+        onClick={goToCharacterPage}
+      >
         <Col md={5} sm={12} className='p-0'>
           <Image fluid src={character.image} className='w-100 h-100' />
         </Col>
@@ -91,7 +95,7 @@ export default function CharacterCard({
             <span
               className={`bg-${statusColor[character.status]} status`}
             ></span>
-            {character.status} - {character.species}
+            {character.status} - {character.species}{" "}
           </h3>
           <p className='mb-1 fw-light text-truncate'>Origin: </p>
           <p className='mb-1 fw-light text-truncate'>

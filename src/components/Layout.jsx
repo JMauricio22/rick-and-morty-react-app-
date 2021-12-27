@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Nav from "./Nav/Index";
+import Nav from "./Nav";
 
 export default function Layout({ children }) {
   return (
