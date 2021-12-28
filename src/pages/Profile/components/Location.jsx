@@ -38,7 +38,10 @@ export default function Location({ url }) {
       {!isLocationLoading && location && (
         <>
           <h2 className='h4'>Last known location: </h2>
-          <h3 className='h5'> {location.name} </h3>
+          <h3 className='h5' data-testid='H3::Name'>
+            {" "}
+            {location.name}{" "}
+          </h3>
           <p className='mb-1'> Type: {location.type} </p>
           <p> Dimension: {location.dimension} </p>
         </>
