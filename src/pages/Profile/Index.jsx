@@ -52,7 +52,7 @@ export default function Index() {
       )}
       {!isLoading && (
         <div className='text-light mt-1 text-center'>
-          <h1> {character.name} </h1>
+          <h1 data-testid='H1::Name'> {character.name} </h1>
           <figure className='d-flex justify-content-center'>
             <Image fluid src={character.image} alt={character.name} />
           </figure>

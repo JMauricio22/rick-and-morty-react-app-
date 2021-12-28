@@ -38,7 +38,9 @@ export default function Origin({ url }) {
       {!isOriginLoading && origin && (
         <>
           <h2 className='h4'>First seen in: </h2>
-          <h3 className='h5'>{origin.name} </h3>
+          <h3 className='h5' data-testid='H3::Name'>
+            {origin.name}{" "}
+          </h3>
           <p className='mb-1'> Type: {origin.type} </p>
           <p> Dimension: {origin.dimension} </p>
         </>
