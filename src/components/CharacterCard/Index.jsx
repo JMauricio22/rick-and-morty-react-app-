@@ -80,6 +80,7 @@ export default function CharacterCard({
         />
       </button>
       <Row
+        data-testid='Card:Character'
         className='shadow bg-dark text-light rounded-4 overflow-hidden'
         style={{ cursor: "pointer" }}
         onClick={goToCharacterPage}

@@ -3,9 +3,13 @@ import { render, screen, waitFor } from "@testing-library/react";
 import Home from "../../pages/Home/Index";
 
 jest.mock("../../services/characters");
+jest.mock("../../components/CharacterCard/Index", () => ({
+  __esModule: true,
+  default: (props) => <h1> {props.character.name} </h1>,
+}));
 
 describe("<Home />", () => {
-  test("Should displayed a spinner while load data from internet and then show a list of characters", async () => {
+  test.only("Should displayed a spinner while load data from internet and then show a list of characters", async () => {
     // Render component
     render(<Home />);
 
@@ -15,7 +19,7 @@ describe("<Home />", () => {
 
     // A list of characters is displayed
     await waitFor(() => {
-      expect(screen.getAllByTestId("CharacterCard").length).toBe(2);
+      expect(screen.getAllByTestId("Col:Character").length).toBe(2);
     });
   });
 });

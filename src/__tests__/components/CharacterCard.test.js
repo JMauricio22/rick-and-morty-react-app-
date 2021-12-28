@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CharacterCard from "../../components/CharacterCard/Index";
@@ -30,11 +31,13 @@ function renderCharacterCard() {
     });
 
     return (
-      <CharacterCard
-        character={character}
-        isFavorite={isFavorite}
-        updateFavorites={updateFavorites}
-      />
+      <BrowserRouter>
+        <CharacterCard
+          character={character}
+          isFavorite={isFavorite}
+          updateFavorites={updateFavorites}
+        />
+      </BrowserRouter>
     );
   }
 
@@ -50,11 +53,13 @@ describe("<CharacterCard />", () => {
     let svgIcon;
 
     render(
-      <CharacterCard
-        character={character}
-        isFavorite={true}
-        updateFavorites={updateFavorites}
-      />
+      <BrowserRouter>
+        <CharacterCard
+          character={character}
+          isFavorite={true}
+          updateFavorites={updateFavorites}
+        />
+      </BrowserRouter>
     );
 
     // Get favorites button
@@ -94,5 +99,27 @@ describe("<CharacterCard />", () => {
       // Check svg icon have attribute called data-prefix with value far
       expect(svgIcon).toHaveAttribute("data-prefix", "far");
     });
+  });
+
+  test("Should show the profile page when make clicking on the character card", () => {
+    render(
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<CharacterCard character={character} />} />
+          <Route
+            path='/character/:id'
+            element={<div data-testid='Div:Profile'>Profile</div>}
+          />
+        </Routes>
+      </BrowserRouter>
+    );
+
+    const card = screen.getByTestId("Card:Character");
+
+    expect(card).toBeInTheDocument();
+
+    userEvent.click(card);
+
+    expect(screen.getByTestId("Div:Profile")).toBeInTheDocument();
   });
 });

@@ -63,7 +63,7 @@ export default function Index() {
             // sm={12}
             md={12}
             lg={6}
-            data-testid='CharacterCard'
+            data-testid='Col:Character'
             className='mb-4'
             key={character.name}
           >

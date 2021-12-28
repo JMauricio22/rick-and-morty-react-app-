@@ -7,6 +7,11 @@ jest.mock("../../hooks/useFavorites", () => ({
   default: jest.fn(),
 }));
 
+jest.mock("../../components/CharacterCard/Index", () => ({
+  __esModule: true,
+  default: (props) => <h1> {props.character.name} </h1>,
+}));
+
 describe("<Favorites />", () => {
   test("Should show an alert when no items are found in favorites", () => {
     useFavorites.mockReturnValue([{}]);
