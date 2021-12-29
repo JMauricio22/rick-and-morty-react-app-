@@ -1,10 +1,22 @@
 import axiosInstance from "./config";
 
-export const getAllCharacters = async (signal) => {
+export const getAllCharacters = async (signal, url = "character") => {
   try {
-    const resp = await axiosInstance.get("character", { signal });
-    return resp.data.results;
+    const resp = await axiosInstance(
+      {
+        url,
+      },
+      { signal }
+    );
+    const data = resp.data.results;
+    const info = resp.data.info;
+    console.log({ data, info });
+    return {
+      data,
+      info,
+    };
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };
