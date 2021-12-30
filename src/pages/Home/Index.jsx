@@ -55,8 +55,8 @@ export default function Index() {
         document.body.clientHeight
       ) {
         if (!controller.current) {
-          controller.current = new AbortController();
           if (pagination.next) {
+            controller.current = new AbortController();
             setLoading(true);
             fetchData(pagination.next);
           }

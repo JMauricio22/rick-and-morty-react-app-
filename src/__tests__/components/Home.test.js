@@ -4,6 +4,7 @@ import Home from "../../pages/Home/Index";
 import { getAllCharacters, characters } from "../../services/characters";
 
 jest.mock("../../services/characters");
+
 jest.mock("../../components/CharacterCard/Index", () => ({
   __esModule: true,
   default: (props) => <h1> {props.character.name} </h1>,
@@ -43,10 +44,12 @@ describe("<Home />", () => {
     });
   });
 
-  test("I should call getAllCharacters when the user has scrolled to the bottom of the page", async () => {
+  test("Should call getAllCharacters when the user has scrolled to the bottom of the page", async () => {
     getAllCharacters.mockResolvedValue({
       data: characters,
-      info: {},
+      info: {
+        next: "https://rickandmortyapi.com/api/character?page=2",
+      },
     });
 
     render(<Home />);
