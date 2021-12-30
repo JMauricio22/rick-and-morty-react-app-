@@ -56,8 +56,10 @@ export default function Index() {
       ) {
         if (!controller.current) {
           controller.current = new AbortController();
-          setLoading(true);
-          fetchData(pagination.next);
+          if (pagination.next) {
+            setLoading(true);
+            fetchData(pagination.next);
+          }
         }
       }
     }
