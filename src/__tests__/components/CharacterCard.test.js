@@ -3,22 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CharacterCard from "../../components/CharacterCard/Index";
+import { character } from "../../services/characters";
 
-const character = {
-  id: 1,
-  name: "Rick Sanchez",
-  status: "Alive",
-  species: "Human",
-  type: "",
-  gender: "Male",
-  origin: {
-    name: "Earth (C-137)",
-  },
-  location: {
-    name: "Citadel of Ricks",
-  },
-  image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-};
+jest.mock("../../services/characters");
 
 function renderCharacterCard() {
   const updateFavoritesMock = jest.fn();

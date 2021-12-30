@@ -2,6 +2,9 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import Favorites from "../../pages/Favorites/Index";
 import useFavorites from "../../hooks/useFavorites";
+import { characters } from "../../services/characters";
+
+jest.mock("../../services/characters");
 
 jest.mock("../../hooks/useFavorites", () => ({
   __esModule: true,
@@ -23,38 +26,10 @@ describe("<Favorites />", () => {
 
   test("should show a list of items when favorites are found", async () => {
     useFavorites.mockImplementation(() => {
-      const favorites = {
-        1: {
-          id: 1,
-          name: "Rick Sanchez",
-          status: "Alive",
-          species: "Human",
-          type: "",
-          gender: "Male",
-          origin: {
-            name: "Earth (C-137)",
-          },
-          location: {
-            name: "Citadel of Ricks",
-          },
-          image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-        },
-        2: {
-          id: 2,
-          name: "Morty Smith",
-          status: "Alive",
-          species: "Human",
-          type: "",
-          gender: "Male",
-          origin: {
-            name: "unknown",
-          },
-          location: {
-            name: "Citadel of Ricks",
-          },
-          image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
-        },
-      };
+      const favorites = characters.reduce(
+        (obj, character) => ({ ...obj, [character.id]: character }),
+        {}
+      );
       return [favorites];
     });
 

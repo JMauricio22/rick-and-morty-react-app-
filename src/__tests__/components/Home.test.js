@@ -1,12 +1,9 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import Home from "../../pages/Home/Index";
-import { getAllCharacters } from "../../services/characters";
+import { getAllCharacters, characters } from "../../services/characters";
 
-jest.mock("../../services/characters", () => ({
-  __esModule: true,
-  getAllCharacters: jest.fn(),
-}));
+jest.mock("../../services/characters");
 jest.mock("../../components/CharacterCard/Index", () => ({
   __esModule: true,
   default: (props) => <h1> {props.character.name} </h1>,
@@ -14,38 +11,13 @@ jest.mock("../../components/CharacterCard/Index", () => ({
 
 describe("<Home />", () => {
   test("Should displayed a spinner while load data from internet and then show a list of characters", async () => {
-    getAllCharacters.mockResolvedValue([
-      {
-        id: 1,
-        name: "Rick Sanchez",
-        status: "Alive",
-        species: "Human",
-        type: "",
-        gender: "Male",
-        origin: {
-          name: "Earth (C-137)",
-        },
-        location: {
-          name: "Citadel of Ricks",
-        },
-        image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+    getAllCharacters.mockResolvedValue({
+      data: characters,
+      info: {
+        next: "",
+        prev: "",
       },
-      {
-        id: 2,
-        name: "Morty Smith",
-        status: "Alive",
-        species: "Human",
-        type: "",
-        gender: "Male",
-        origin: {
-          name: "unknown",
-        },
-        location: {
-          name: "Citadel of Ricks",
-        },
-        image: "https://rickandmortyapi.com/api/character/avatar/2.jpeg",
-      },
-    ]);
+    });
 
     // Render component
     render(<Home />);
@@ -56,7 +28,7 @@ describe("<Home />", () => {
 
     // A list of characters is displayed
     await waitFor(() => {
-      expect(screen.getAllByTestId("Col:Character").length).toBe(2);
+      expect(screen.getAllByTestId("Col:Character")).toHaveLength(2);
     });
   });
 
@@ -68,6 +40,42 @@ describe("<Home />", () => {
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
+  });
+
+  test("I should call getAllCharacters when the user has scrolled to the bottom of the page", async () => {
+    getAllCharacters.mockResolvedValue({
+      data: characters,
+      info: {},
+    });
+
+    render(<Home />);
+
+    expect(await screen.findAllByTestId("Col:Character")).toHaveLength(2);
+
+    // set a diferent id a on each character
+    getAllCharacters.mockResolvedValue({
+      data: characters.map((char) => ({
+        ...char,
+        id: char.id + characters.length,
+      })),
+      info: {},
+    });
+
+    // set the scroll to the bottom of the page
+    window.scrollY = 100;
+    window.innerHeight = 100;
+
+    Object.defineProperty(document.body, "clientHeight", {
+      value: 200,
+    });
+
+    // Scroll event
+    fireEvent(window, new CustomEvent("scroll"));
+
+    // check if getAllCharacters is called when the bottom of the page is reached
+    await waitFor(() => {
+      expect(getAllCharacters).toHaveBeenCalledTimes(2);
     });
   });
 });

@@ -2,30 +2,13 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Profile from "../../pages/Profile/Index";
-import { getCharacterById } from "../../services/characters";
+import { getCharacterById, character } from "../../services/characters";
 
-jest.mock("../../services/characters", () => ({
-  __esModule: true,
-  getCharacterById: jest.fn(),
-}));
+jest.mock("../../services/characters");
 
 describe("<Profile />", () => {
   test("Should show an spinner while loading data from the API and then showing the information of a character", async () => {
-    getCharacterById.mockResolvedValue({
-      id: 1,
-      name: "Rick Sanchez",
-      status: "Alive",
-      species: "Human",
-      type: "",
-      gender: "Male",
-      origin: {
-        name: "Earth (C-137)",
-      },
-      location: {
-        name: "Citadel of Ricks",
-      },
-      image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-    });
+    getCharacterById.mockResolvedValue(character);
 
     // Render Profile
     render(<Profile />);
