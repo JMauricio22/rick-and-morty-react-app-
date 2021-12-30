@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect, useRef } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 import { getAllCharacters } from "../../services/characters";

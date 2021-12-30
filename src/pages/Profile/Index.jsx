@@ -26,20 +26,19 @@ export default function Index() {
   const [error, setError] = useState(null);
   const { id } = useParams();
 
-  const getCharacter = async () => {
-    try {
-      const data = await getCharacterById(id, null);
-      setCharacter(data);
-    } catch (error) {
-      setError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getCharacter = async () => {
+      try {
+        const data = await getCharacterById(id, null);
+        setCharacter(data);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     getCharacter();
-  }, []);
+  }, [id]);
 
   const getView = () => (
     <>
